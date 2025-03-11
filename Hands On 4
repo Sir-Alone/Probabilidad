@@ -1,0 +1,46 @@
+public class TablaFrecuencias {
+    public static void main(String[] args) {
+        // datos del hands on
+        int[] datos = {28, 35, 42, 49, 56, 63, 70, 26, 33, 40, 47, 54, 61, 68, 29, 36, 43, 50, 57, 64, 71, 30, 37, 44, 51, 58, 65, 72, 31, 38};
+        // ordenar los datos
+        java.util.Arrays.sort(datos);
+        int[][] clases = {{25, 33}, {34, 42}, {43, 51}, {52, 60}, {61, 69}, {70, 78}};
+        // contar cuantos datos hay en cada clase
+        int[] frecuencias = new int[clases.length];
+        int[] puntosMedios = new int[clases.length];
+        for (int i = 0; i < clases.length; i++) {
+            for (int dato : datos) {
+                if (dato >= clases[i][0] && dato <= clases[i][1]) {
+                    frecuencias[i]++;
+                }
+            }
+            puntosMedios[i] = (clases[i][0] + clases[i][1]) / 2;
+        }
+        // calcular frecuencias acumuladas y relativas
+        int[] frecuenciasAcumuladas = new int[clases.length];
+        double[] frecuenciasRelativasAcumuladas = new double[clases.length];
+        double[] frecuenciasRelativas = new double[clases.length];
+        int acumulado = 0;
+        double acumuladoRelativo = 0;
+        for (int i = 0; i < clases.length; i++) {
+            acumulado += frecuencias[i];
+            frecuenciasAcumuladas[i] = acumulado;
+            frecuenciasRelativas[i] = (double) frecuencias[i] / datos.length;
+            acumuladoRelativo += frecuenciasRelativas[i];
+            frecuenciasRelativasAcumuladas[i] = acumuladoRelativo;
+        }
+        // imprimir la tabla
+        System.out.println("Clase | Limite de clase | Frecuencia | Punto Medio | Fa | fr   | fra  | Porcentaje %");
+        System.out.println("----------------------------------------------------------------------------------");
+
+        for (int i = 0; i < clases.length; i++) {
+            System.out.printf("%-5d | %-15d-%-15d | %-10d | %-10d | %-2d | %-4.2f | %-4.2f | %.0f%%\n",
+                    i + 1, clases[i][0], clases[i][1], frecuencias[i], puntosMedios[i],
+                    frecuenciasAcumuladas[i], frecuenciasRelativas[i], frecuenciasRelativasAcumuladas[i], frecuenciasRelativas[i] * 100);
+            System.out.println("----------------------------------------------------------------------------------");
+        }
+        System.out.printf("%-5s | %-15s | %-10d | %-10s | %-2s | %-4.2f | %-4.2f | 100%%\n",
+                "TOTAL", "", datos.length, "", "", 1.0, 1.0);
+        System.out.println("----------------------------------------------------------------------------------");
+    }
+}
