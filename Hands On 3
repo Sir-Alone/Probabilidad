@@ -1,0 +1,44 @@
+import java.util.HashMap;
+import java.util.Map;
+public class Tabla {
+    public static void main(String[] args) {
+        // Aquí están los datos que vamos a analizar. Son los que el profe nos dio.
+        double[] misDatos = {15.5, 13.2, 15.5, 4.8, 15.5, 8.1, 13.2, 15.5};
+
+        // Vamos a usar un "mapa" para contar cuántas veces aparece cada número.
+        // Es como una tabla donde guardamos cada número y cuántas veces lo vemos.
+        Map<Double, Integer> conteo = new HashMap<>();
+
+        // Revisamos cada número en nuestros datos.
+        for (double numero : misDatos) {
+            // Si ya vimos este número antes, sumamos uno a su contador.
+            if (conteo.containsKey(numero)) {
+                conteo.put(numero, conteo.get(numero) + 1);
+            } else {
+                // Si es la primera vez que vemos este número, lo agregamos al mapa con un contador de 1.
+                conteo.put(numero, 1);
+            }
+        }
+
+        // Ahora sabemos cuántas veces aparece cada número.
+        // Vamos a calcular el total de números que tenemos.
+        int total = misDatos.length;
+
+        // ¡Es hora de mostrar los resultados en una tabla!
+        System.out.println("Tabla de Frecuencias");
+        System.out.println("Valor\tFrecuencia\tRelativa\tPorcentaje");
+
+        // Para cada número que encontramos, vamos a calcular su frecuencia relativa y porcentaje.
+        for (double valor : conteo.keySet()) {
+            int frecuencia = conteo.get(valor);
+            double relativa = (double) frecuencia / total;
+            double porcentaje = relativa * 100;
+
+            // Imprimimos cada fila de la tabla con los valores calculados.
+            System.out.printf("%.1f\t%d\t%.2f\t%.0f%%\n", valor, frecuencia, relativa, porcentaje);
+        }
+
+        // Al final, mostramos el total de números y el porcentaje total (que siempre será 100%).
+        System.out.printf("\t%d\t1.00\t100%%\n", total);
+    }
+}
