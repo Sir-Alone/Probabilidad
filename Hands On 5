@@ -1,0 +1,102 @@
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+public class TablaFrecuencias {
+    //se usan para contar cuántas veces aparece cada número en el array datos para calcular la moda
+    public static void main(String[] args) {
+        // datos del hands on
+        int[] datos = {28, 35, 42, 49, 56, 63, 70, 26, 33, 40, 47, 54, 61, 68, 29, 36, 43, 50, 57, 64, 71, 30, 37, 44, 51, 58, 65, 72, 31, 38};
+        // se ordenan para la mediana
+        Arrays.sort(datos);
+        System.out.println("Cálculos para datos sueltos (no agrupados):");
+        System.out.println("Promedio (Media): " + calcularPromedio(datos));
+        System.out.println("Mediana: " + calcularMediana(datos));
+        System.out.println("Moda: " + calcularModa(datos));
+        // se agrupan en clases
+        int[][] clases = {{25, 33}, {34, 42}, {43, 51}, {52, 60}, {61, 69}, {70, 78}};
+        int[] frecuencias = calcularFrecuencias(datos, clases);
+        int[] puntosMedios = calcularPuntosMedios(clases);
+        System.out.println("\nCálculos para datos agrupados:");
+        System.out.println("Promedio (Media) agrupada: " + calcularPromedioAgrupado(frecuencias, puntosMedios));
+        System.out.println("Mediana agrupada: " + calcularMedianaAgrupada(datos.length, frecuencias, puntosMedios));
+        System.out.println("Moda agrupada: (No sé cómo calcularla aquí)");
+    }
+    // se calcula el primedio
+    public static double calcularPromedio(int[] datos) {
+        double suma = 0;
+        for (int numero : datos) {
+            suma += numero;
+        }
+        return suma / datos.length;
+    }
+    // La mediana es el del medio, si son pares, promedio de los dos del medio
+    public static double calcularMediana(int[] datos) {
+        int n = datos.length;
+        if (n % 2 == 0) {
+            return (datos[n / 2 - 1] + datos[n / 2]) / 2.0;
+        } else {
+            return datos[n / 2];
+        }
+    }
+    // La moda es el que más se repite
+    public static int calcularModa(int[] datos) {
+        Map<Integer, Integer> conteo = new HashMap<>();
+        for (int numero : datos) {
+            conteo.put(numero, conteo.getOrDefault(numero, 0) + 1);
+        }
+        int moda = 0;
+        int maxVeces = 0;
+        for (Map.Entry<Integer, Integer> par : conteo.entrySet()) {
+            if (par.getValue() > maxVeces) {
+                maxVeces = par.getValue();
+                moda = par.getKey();
+            }
+        }
+        return moda;
+    }
+    //  cuantos datos estan en cada clase
+    public static int[] calcularFrecuencias(int[] datos, int[][] clases) {
+        int[] frecuencias = new int[clases.length];
+        for (int i = 0; i < clases.length; i++) {
+            for (int dato : datos) {
+                if (dato >= clases[i][0] && dato <= clases[i][1]) {
+                    frecuencias[i]++;
+                }
+            }
+        }
+        return frecuencias;
+    }
+    // el punto medio es el promedio de los límites de la clase
+    public static int[] calcularPuntosMedios(int[][] clases) {
+        int[] puntosMedios = new int[clases.length];
+        for (int i = 0; i < clases.length; i++) {
+            puntosMedios[i] = (clases[i][0] + clases[i][1]) / 2;
+        }
+        return puntosMedios;
+    }
+    // promedio agrupado: sumar los productos de frecuencia y punto medio, y divido
+    public static double calcularPromedioAgrupado(int[] frecuencias, int[] puntosMedios) {
+        double sumaProductos = 0;
+        int totalDatos = 0;
+        for (int i = 0; i < frecuencias.length; i++) {
+            sumaProductos += frecuencias[i] * puntosMedios[i];
+            totalDatos += frecuencias[i];
+        }
+        return sumaProductos / totalDatos;
+    }
+    // mediana agrupada buscar la clase donde cae la mitad de los datos
+    public static double calcularMedianaAgrupada(int totalDatos, int[] frecuencias, int[] puntosMedios) {
+        int mitadDatos = totalDatos / 2;
+        int sumaFrecuencias = 0;
+        int claseMediana = 0;
+
+        for (int i = 0; i < frecuencias.length; i++) {
+            sumaFrecuencias += frecuencias[i];
+            if (sumaFrecuencias >= mitadDatos) {
+                claseMediana = i;
+                break;
+            }
+        }
+        return puntosMedios[claseMediana];
+    }
+}
