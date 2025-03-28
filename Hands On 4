@@ -2,24 +2,31 @@ public class TablaFrecuencias {
     public static void main(String[] args) {
         int[] datos = {25, 26, 27, 28, 34, 35, 36, 37, 43, 44, 45, 46, 47, 48, 49, 50,
                 52, 53, 54, 55, 56, 57, 58, 61, 62, 63, 64, 65, 70, 71, 72};
-
-        int[][] clases = {{25, 33}, {34, 42}, {43, 51}, {52, 60}, {61, 69}, {70, 78}};
-        int totalDatos = datos.length;
+        int[][] clases = {
+                {25, 33},
+                {34, 42},
+                {43, 51},
+                {52, 60},
+                {61, 69},
+                {70, 78}
+        };
         int[] frecuencias = {4, 4, 8, 7, 5, 3};
+        int totalDatos = datos.length;
         int[] puntosMedios = {29, 38, 47, 56, 65, 74};
         int[] frecuenciasAcumuladas = {4, 8, 16, 23, 28, 31};
         double[] frecuenciasRelativas = {0.13, 0.13, 0.26, 0.23, 0.16, 0.09};
         double[] frecuenciasRelativasAcumuladas = {0.13, 0.26, 0.52, 0.75, 0.91, 1.00};
-
         System.out.println("Clase | Límite       | f  | Xc  | Fa | fr  | fra  | %");
+        System.out.println("----------------------------------------------------");
         for (int i = 0; i < clases.length; i++) {
-            System.out.printf("%5d | %2d - %2d | %2d | %2d | %2d | %.2f | %.2f | %d%%\n",
-                    i + 1, clases[i][0], clases[i][1], frecuencias[i], puntosMedios[i],
-                    frecuenciasAcumuladas[i], frecuenciasRelativas[i],
-                    frecuenciasRelativasAcumuladas[i], (int) (frecuenciasRelativas[i] * 100));
+            System.out.println((i + 1) + "    | " + clases[i][0] + " - " + clases[i][1] + " | "
+                    + frecuencias[i] + "  | " + puntosMedios[i] + " | " + frecuenciasAcumuladas[i]
+                    + "  | " + String.format("%.2f", frecuenciasRelativas[i]) + " | "
+                    + String.format("%.2f", frecuenciasRelativasAcumuladas[i])
+                    + " | " + (int) (frecuenciasRelativas[i] * 100) + "%");
         }
-        System.out.printf("TOTAL |             | %2d |     |    | %.2f | %.2f | 100%%\n",
-                totalDatos, 1.00, 1.00);
+        System.out.println("----------------------------------------------------");
+        System.out.println("TOTAL |             | " + totalDatos + " |     |    | " + "1.00" + " | " + "1.00" + " | 100%");
     }
 }
 
